@@ -16,10 +16,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int END_STATE = 2;
 	int currentState = MENU_STATE;
 	Font titleFont;
-
+	Font babyFont;
+	Pikachu p = new Pikachu(250,700,50,50);
 	GamePanel() {
 		t = new Timer(1000 / 60, this);
 		titleFont = new Font("Tangerine", Font.PLAIN, 48);
+		babyFont = new Font("Tangerine", Font.PLAIN, 24);
 	}
 
 	@Override
@@ -51,8 +53,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		System.out.println("lol");
-
 	}
 
 	@Override
@@ -61,15 +61,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			currentState = currentState + 1;
 			if (currentState > END_STATE) {
 				currentState = MENU_STATE;
-
 			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		System.out.println("lols");
-
 	}
 
 	public void updateMenuState() {
@@ -77,31 +74,38 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateGameState() {
-		System.out.println("test");
+		p.update();
 	}
 
 	public void updateEndState() {
-
 	}
 
 	public void drawMenuState(Graphics g) {
 		g.setColor(Color.CYAN);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		g.setFont(titleFont); 
-		g.setColor(Color.BLACK);
-		g.drawString("League Invaders", 50, 100);
-
+		g.setColor(Color.WHITE);
+		g.drawString("LEAGUE INVADERS", 35, 200);
+		g.setFont(babyFont);
+		g.drawString("Press ENTER to start", 125, 300);
+		g.drawString("Press SPACE for instructions", 75, 400);
 		
 	}
 
 	public void drawGameState(Graphics g) {
-		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		p.draw(g);
 	}
 
 	public void drawEndState(Graphics g) {
 		g.setColor(Color.PINK);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		g.setFont(titleFont);
+		g.setColor(Color.WHITE);
+		g.drawString("GAME OVER", 100, 200);
+		g.setFont(babyFont);
+		g.drawString("You killed 0 Ice Creams", 100 , 300);
+		g.drawString("Press BACKSPACE to Restart", 80, 400);
 	}
 }
