@@ -17,11 +17,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int currentState = MENU_STATE;
 	Font titleFont;
 	Font babyFont;
-	Pikachu p = new Pikachu(250,700,50,50);
+	int px = 250;
+	int py = 700;
+	Pikachu p = new Pikachu(px, py, 50, 50);
+	
+	ObjectManager o = new ObjectManager();
+
 	GamePanel() {
 		t = new Timer(1000 / 60, this);
 		titleFont = new Font("Tangerine", Font.PLAIN, 48);
 		babyFont = new Font("Tangerine", Font.PLAIN, 24);
+		o.addObject(p);
+
 	}
 
 	@Override
@@ -63,10 +70,38 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				currentState = MENU_STATE;
 			}
 		}
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			Pikachu.upPressed = true;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			Pikachu.downPressed = true;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			Pikachu.leftPressed = true;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			Pikachu.rightPressed = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			o.addObject(new Projectile(px, py, 10, 10));
+
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			Pikachu.upPressed = false;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			Pikachu.downPressed = false;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			Pikachu.leftPressed = false;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			Pikachu.rightPressed = false;
+		}
 	}
 
 	public void updateMenuState() {
@@ -74,7 +109,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateGameState() {
-		p.update();
+		o.update();
 	}
 
 	public void updateEndState() {
@@ -83,19 +118,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void drawMenuState(Graphics g) {
 		g.setColor(Color.CYAN);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
-		g.setFont(titleFont); 
+		g.setFont(titleFont);
 		g.setColor(Color.WHITE);
 		g.drawString("LEAGUE INVADERS", 35, 200);
 		g.setFont(babyFont);
 		g.drawString("Press ENTER to start", 125, 300);
 		g.drawString("Press SPACE for instructions", 75, 400);
-		
+
 	}
 
 	public void drawGameState(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
-		p.draw(g);
+		o.draw(g);
+
 	}
 
 	public void drawEndState(Graphics g) {
@@ -105,7 +141,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.WHITE);
 		g.drawString("GAME OVER", 100, 200);
 		g.setFont(babyFont);
-		g.drawString("You killed 0 Ice Creams", 100 , 300);
+		g.drawString("You ate 0 Ice Creams", 115, 300);
 		g.drawString("Press BACKSPACE to Restart", 80, 400);
 	}
 }
