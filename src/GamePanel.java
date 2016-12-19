@@ -83,7 +83,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			Pikachu.rightPressed = true;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			o.addObject(new Projectile(px, py, 10, 10));
+			o.addObject(new Projectile(p.x+20, p.y, 10, 10));
 
 		}
 	}
@@ -110,6 +110,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void updateGameState() {
 		o.update();
+		o.manageEnemies();
+		o.checkCollision();
+		if(p.isAlive==false){
+		currentState=END_STATE;
+		o.reset();
+		p = new Pikachu(px, py, 50, 50);
+		o.addObject(p);
+		}
+		
 	}
 
 	public void updateEndState() {
@@ -141,7 +150,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.WHITE);
 		g.drawString("GAME OVER", 100, 200);
 		g.setFont(babyFont);
-		g.drawString("You ate 0 Ice Creams", 115, 300);
+		g.drawString("You ate "+ o.getScore() +" Ice Creams", 115, 300);
 		g.drawString("Press BACKSPACE to Restart", 80, 400);
 	}
 }

@@ -9,6 +9,7 @@ public class Pikachu extends GameObject {
 	static boolean rightPressed = false;
 
 	public Pikachu(int x, int y, int w, int h) {
+		super();
 		this.x = x;
 		this.y = y;
 		width = w;
@@ -17,6 +18,7 @@ public class Pikachu extends GameObject {
 	}
 
 	void update() {
+		super.update();
 		if (upPressed == true) {
 			y = y - speed;
 		}
