@@ -34,8 +34,8 @@ public class Pikachu extends GameObject {
 	}
 
 	void draw(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(x, y, width, height);
+		g.drawImage(GamePanel.rocketImg, x-100, y-84, 100, 84, null);
 	}
+
 
 }

@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -20,15 +23,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int px = 250;
 	int py = 700;
 	Pikachu p = new Pikachu(px, py, 50, 50);
-	
 	ObjectManager o = new ObjectManager();
+	public static BufferedImage alienImg;
+	public static BufferedImage rocketImg;
+	public static BufferedImage bulletImg;
 
 	GamePanel() {
 		t = new Timer(1000 / 60, this);
 		titleFont = new Font("Tangerine", Font.PLAIN, 48);
 		babyFont = new Font("Tangerine", Font.PLAIN, 24);
 		o.addObject(p);
-
+		try {
+			alienImg = ImageIO.read(this.getClass().getResourceAsStream("ice.png"));
+			rocketImg = ImageIO.read(this.getClass().getResourceAsStream("Pikachu.png"));
+			bulletImg = ImageIO.read(this.getClass().getResourceAsStream("babypik.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -105,7 +117,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateMenuState() {
-
+		if (currentState == MENU_STATE){
+			o.setScore(0);
+		}
 	}
 
 	public void updateGameState() {
@@ -122,6 +136,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateEndState() {
+		
 	}
 
 	public void drawMenuState(Graphics g) {
